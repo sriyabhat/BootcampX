@@ -13,9 +13,9 @@ pool.query(`
   SELECT S.id,S.name,C.name AS cohort
   FROM students S
   JOIN cohorts C ON C.id = S.cohort_id
-  WHERE C.name LIKE '%${process.argv[2]}%'
-  LIMIT ${(process.argv[3] || 5)};`  
-)
+  WHERE C.name LIKE $1
+  LIMIT $2;`  
+,[`%${process.argv[2]}%`,(process.argv[3] || 5)])
 .then(data => {
   data.rows.forEach(user => {
     console.log(`User ${user.name} has id ${user.id} and was in the cohort ${user.cohort}`);

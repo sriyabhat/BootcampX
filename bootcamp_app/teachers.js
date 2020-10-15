@@ -13,9 +13,9 @@ pool.query(`
   JOIN teachers T ON T.id = AR.teacher_id
   JOIN students S ON S.id = AR.student_id
   JOIN cohorts C ON C.id = S.cohort_id
-  WHERE C.name LIKE '%${process.argv[2]}%'
+  WHERE C.name LIKE $1
   ORDER BY T.name;
-`)
+`,[`%${process.argv[2]}%`])
 .then(data => {
   data.rows.forEach(t => {
     console.log(`${t.cohort} : ${t.teacher}`);
@@ -26,3 +26,4 @@ pool.query(`
 .catch(error => {
   console.log(error.stack);
 })
+
